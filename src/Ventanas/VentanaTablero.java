@@ -1,20 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Ventanas;
 
+import Caballo.Tablero;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /**
  *
@@ -22,17 +13,21 @@ import javax.swing.JPanel;
  */
 public class VentanaTablero extends JFrame {
 
-    private int tamaño;
-    private Tablero tablero;
-    private static final String RUTA_REINA = "imagenes/reina.png";
-    private boolean solucionar;
+    private final int tamaño;
+    private final Tablero tablero;
+    private final boolean solucionar;
 
     private JButton[][] casillas;
     private ImageIcon imagen;
-    private static final int TAMAÑO_CASILLA = 80;
+    private static final int CASILLA = 80;
 
+    /**
+     * Método constructor de la clase
+     * 
+     * @param n 
+     */
     public VentanaTablero(int n) {
-        super("Juego de las N-Reinas");
+        super("Juego del Caballo");
 
         this.tamaño = n;
         this.tablero = new Tablero(tamaño);
@@ -41,8 +36,14 @@ public class VentanaTablero extends JFrame {
         initComponents();
     }
 
+    /**
+     * Método constructor de la clase
+     * 
+     * @param tablero
+     * @param n 
+     */
     public VentanaTablero(Tablero tablero, int n) {
-        super("Juego de las N-Reinas");
+        super("Juego del Caballo");
 
         this.tamaño = n;
         this.tablero = tablero;
@@ -51,8 +52,12 @@ public class VentanaTablero extends JFrame {
         initComponents();
     }
 
+    /**
+     * Método que inicializa y gestiona los componentes de la ventana
+     * 
+     */
     private void initComponents() {
-        this.setSize(tamaño * TAMAÑO_CASILLA + 16, tamaño * TAMAÑO_CASILLA + 39);
+        this.setSize(tamaño * CASILLA + 16, tamaño * CASILLA + 39);
         this.setLocationRelativeTo(null);
         this.setLayout(new GridLayout(tamaño, tamaño));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,15 +79,17 @@ public class VentanaTablero extends JFrame {
         }
     }
 
+    /**
+     * Método que inicializa el tablero
+     * 
+     */
     private void initTablero() {
         for (int i = 0; i < tamaño; i++) {
             for (int j = 0; j < tamaño; j++) {
                 casillas[i][j] = new JButton();
-
-                if (solucionar && tablero.getValor(i, j) == 1) {
-                    imagen = new ImageIcon("imagenes/reina.png");
-                    casillas[i][j].setIcon(new ImageIcon(imagen.getImage().getScaledInstance(TAMAÑO_CASILLA - 20, TAMAÑO_CASILLA - 20, Image.SCALE_DEFAULT)));
-                    casillas[i][j].setOpaque(true);
+                
+                if (solucionar && tablero.getValor(i, j) > 0) {
+                    casillas[i][j].setText(String.valueOf(tablero.getValor(i, j)));
                 }
                 // Blanco par, negro impar
                 else if ((i + j) % 2 == 0) {

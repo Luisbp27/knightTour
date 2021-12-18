@@ -24,12 +24,20 @@ public class VentanaInicio extends JFrame {
     private JButton intro;
     private JLabel titulo;
 
+    /**
+     * Método constructor de la clase
+     * 
+     */
     public VentanaInicio() {
-        super("Programa N-Reinas");
+        super("Programa del Caballo");
 
         initComponents();
     }
 
+    /**
+     * Método que inicializa los componentes de la ventana
+     * 
+     */
     private void initComponents() {
         this.setSize(ANCHURA, ALTURA);
         this.setLocationRelativeTo(null);
@@ -56,10 +64,10 @@ public class VentanaInicio extends JFrame {
 
                 if (d < 0) {
                     JOptionPane.showMessageDialog(null, "Por favor, introduce un valor entero positivo");
-                } else if (d < 4) {
+                } else if (d < 5) {
                     JOptionPane.showMessageDialog(null, "No hay solución posible");
                 } else {
-                    VentanaTablero ventanaTablero = new VentanaTablero(Integer.parseInt(texto.getText()));
+                    VentanaTablero ventanaTablero = new VentanaTablero(d);
                     ventanaTablero.setVisible(true);
 
                     // Cerramos la ventana actual
