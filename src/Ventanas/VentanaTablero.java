@@ -3,9 +3,13 @@ package Ventanas;
 import Caballo.Tablero;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 /**
  *
@@ -20,6 +24,12 @@ public class VentanaTablero extends JFrame {
     private JButton[][] casillas;
     private ImageIcon imagen;
     private static final int CASILLA = 80;
+    
+    private static final JMenuBar barraMenu = new JMenuBar();
+    private static final JMenu solucion = new JMenu();
+    private static final JMenuItem solucion1 = new JMenuItem();
+    private static final JMenuItem solucion2 = new JMenuItem();
+    private static final JMenuItem solucion3 = new JMenuItem();
 
     /**
      * Método constructor de la clase
@@ -57,7 +67,7 @@ public class VentanaTablero extends JFrame {
      * 
      */
     private void initComponents() {
-        this.setSize(tamaño * CASILLA + 16, tamaño * CASILLA + 39);
+        this.setSize(tamaño * CASILLA + 16, tamaño * CASILLA + 42);
         this.setLocationRelativeTo(null);
         this.setLayout(new GridLayout(tamaño, tamaño));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -77,6 +87,30 @@ public class VentanaTablero extends JFrame {
                 });
             }
         }
+        
+        solucion1.setText("Solución 1");
+        solucion1.addActionListener((ActionEvent e) -> {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        });
+        
+        solucion2.setText("Solución 2");
+        solucion2.addActionListener((ActionEvent e) -> {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        });
+        
+        solucion3.setText("Solución 3");
+        solucion3.addActionListener((ActionEvent e) -> {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        });
+        
+        solucion.setText("Soluciones");
+        solucion.add(solucion1);
+        solucion.add(solucion2);
+        solucion.add(solucion3);
+        
+        barraMenu.add(solucion);
+        
+        this.setJMenuBar(barraMenu);
     }
 
     /**
