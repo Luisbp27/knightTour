@@ -1,5 +1,7 @@
 package Caballo;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author luisb
@@ -12,6 +14,9 @@ public class Tablero {
     
     private static final int[] X_MOVE = {2, 1, -1, -2, -2, -1, 1, 2};
     private static final int[] Y_MOVE = {1, 2, 2, 1, -1, -2, -2, -1};
+    
+    private Object[] soluciones = new Object[3];
+    private int numSol;
     
     /**
      * Método constructor de la clase
@@ -38,11 +43,15 @@ public class Tablero {
         this.tablero = new int[tamaño][tamaño];
         this.n = tamaño;
         this.caballos = 1;
+        this.numSol = 0;
         
         initTablero();
         // Introducimos el primer caballo en la posición pasada por paráemetro
         tablero[x][y] = 1;
-        solucion(tablero, caballos, x, y, X_MOVE, Y_MOVE);
+        
+        if (!solucion(tablero, caballos, x, y, X_MOVE, Y_MOVE)) {
+            JOptionPane.showMessageDialog(null, "No hay solución, prueba otra casilla.");
+        } 
     }
     
     /**
