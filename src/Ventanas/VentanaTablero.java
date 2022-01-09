@@ -4,6 +4,7 @@ import Caballo.Tablero;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,23 +19,23 @@ import javax.swing.JMenuItem;
 public class VentanaTablero extends JFrame {
 
     private final int tamaño;
-    private final Tablero tablero;
+    private Tablero tablero;
     private final boolean solucionar;
 
     private JButton[][] casillas;
     private ImageIcon imagen;
     private static final int CASILLA = 80;
-    
-    private static final JMenuBar barraMenu = new JMenuBar();
-    private static final JMenu solucion = new JMenu();
-    private static final JMenuItem solucion1 = new JMenuItem();
-    private static final JMenuItem solucion2 = new JMenuItem();
-    private static final JMenuItem solucion3 = new JMenuItem();
+
+    private JMenuBar barraMenu = new JMenuBar();
+    private JMenu solucion = new JMenu();
+    private JMenuItem solucion1 = new JMenuItem();
+    private JMenuItem solucion2 = new JMenuItem();
+    private JMenuItem solucion3 = new JMenuItem();
 
     /**
      * Método constructor de la clase
-     * 
-     * @param n 
+     *
+     * @param n
      */
     public VentanaTablero(int n) {
         super("Juego del Caballo");
@@ -48,9 +49,9 @@ public class VentanaTablero extends JFrame {
 
     /**
      * Método constructor de la clase
-     * 
+     *
      * @param tablero
-     * @param n 
+     * @param n
      */
     public VentanaTablero(Tablero tablero, int n) {
         super("Juego del Caballo");
@@ -64,7 +65,7 @@ public class VentanaTablero extends JFrame {
 
     /**
      * Método que inicializa y gestiona los componentes de la ventana
-     * 
+     *
      */
     private void initComponents() {
         this.setSize(tamaño * CASILLA + 16, tamaño * CASILLA + 42);
@@ -87,45 +88,44 @@ public class VentanaTablero extends JFrame {
                 });
             }
         }
-        
+
         solucion1.setText("Solución 1");
         solucion1.addActionListener((ActionEvent e) -> {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            mostrarSolucion(0);
         });
-        
+
         solucion2.setText("Solución 2");
         solucion2.addActionListener((ActionEvent e) -> {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            mostrarSolucion(1);
         });
-        
+
         solucion3.setText("Solución 3");
         solucion3.addActionListener((ActionEvent e) -> {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            mostrarSolucion(2);
         });
-        
+
         solucion.setText("Soluciones");
         solucion.add(solucion1);
         solucion.add(solucion2);
         solucion.add(solucion3);
-        
+
         barraMenu.add(solucion);
-        
+
         this.setJMenuBar(barraMenu);
     }
 
     /**
      * Método que inicializa el tablero
-     * 
+     *
      */
     private void initTablero() {
         for (int i = 0; i < tamaño; i++) {
             for (int j = 0; j < tamaño; j++) {
                 casillas[i][j] = new JButton();
-                
+
                 if (solucionar && tablero.getValor(i, j) > 0) {
                     casillas[i][j].setText(String.valueOf(tablero.getValor(i, j)));
-                }
-                // Blanco par, negro impar
+                } // Blanco par, negro impar
                 else if ((i + j) % 2 == 0) {
                     imagen = new ImageIcon("imagenes/white.jpg");
                     casillas[i][j].setIcon(imagen);
@@ -154,8 +154,24 @@ public class VentanaTablero extends JFrame {
     private void solucionTablero(int x, int y) {
         this.setVisible(false);
 
-        VentanaTablero ventanaTablero = new VentanaTablero(new Tablero(tamaño, y, x), tamaño);
+        Tablero t = new Tablero(tamaño);
+        t.solucionar(x, y);
+        VentanaTablero ventanaTablero = new VentanaTablero(t, tamaño);
+        
+        ventanaTablero.setVisible(true);
+    }
 
+    private void mostrarSolucion(int num) {
+        System.out.println("num: " + num);
+        Tablero aux = tablero.getSolucion(num);
+                
+        ArrayList solucionesAux = tablero.getSoluciones();
+
+        this.setVisible(false);
+        VentanaTablero ventanaTablero = new VentanaTablero(aux, tamaño);
+        
+        tablero.setSoluciones(solucionesAux);
+        
         ventanaTablero.setVisible(true);
     }
 }

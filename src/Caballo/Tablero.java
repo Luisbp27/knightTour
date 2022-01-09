@@ -1,5 +1,6 @@
 package Caballo;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -8,15 +9,14 @@ import javax.swing.JOptionPane;
  */
 public class Tablero {
     
-    private final int[][] tablero;
-    private final int n;
+    private int[][] tablero;
+    private int n;
     private int caballos;
     
     private static final int[] X_MOVE = {2, 1, -1, -2, -2, -1, 1, 2};
     private static final int[] Y_MOVE = {1, 2, 2, 1, -1, -2, -2, -1};
     
-    private Object[] soluciones = new Object[3];
-    private int numSol;
+    private ArrayList<Object> soluciones = new ArrayList<>();
     
     /**
      * Método constructor de la clase
@@ -31,27 +31,22 @@ public class Tablero {
         initTablero();
     }
     
-    /**
-     * Método constructor de la clase que crea una solución a partir de una
-     * posición pasada por parámetro
-     * 
-     * @param tamaño
-     * @param x
-     * @param y 
-     */
-    public Tablero(int tamaño, int x, int y) {
-        this.tablero = new int[tamaño][tamaño];
-        this.n = tamaño;
-        this.caballos = 1;
-        this.numSol = 0;
-        
-        initTablero();
+    public Tablero(int[][] tablero) {
+        this.tablero = tablero;
+        this.n = tablero.length;
+        this.caballos = n*n;
+    }
+    
+    public void solucionar(int x, int y) {
         // Introducimos el primer caballo en la posición pasada por paráemetro
         tablero[x][y] = 1;
+        caballos++;
         
-        if (!solucion(tablero, caballos, x, y, X_MOVE, Y_MOVE)) {
+        if (!solucion(soluciones, tablero, caballos, x, y, X_MOVE, Y_MOVE)) {
             JOptionPane.showMessageDialog(null, "No hay solución, prueba otra casilla.");
         } 
+        
+        //print();
     }
     
     /**
@@ -90,15 +85,25 @@ public class Tablero {
      * @param yMove
      * @return 
      */
-    private boolean solucion(int[][] tablero, int caballos, int x, int y, int[] X_MOVE, int[] Y_MOVE) {
+    private boolean solucion(ArrayList<Object> soluciones, int[][] tablero, int caballos, int x, int y, int[] X_MOVE, int[] Y_MOVE) {
         int xSig, ySig;
         
         if (caballos == n*n) {
-            return true;
+            //print(tablero);
+            soluciones.add(copy(tablero));
+            
+            for (int i = 0; i < soluciones.size(); i++) {
+                System.out.println("Solucion " + i + ": ");
+                print((int[][]) soluciones.get(i));
+            }
+            
+            System.out.println("//////////////////");
+            
+            return soluciones.size() == 3;
         }
         
         // Probamos todos los movimientos posibles
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {            
             // Realizamos el movimiento
             xSig = x + X_MOVE[i];
             ySig = y + Y_MOVE[i];
@@ -107,7 +112,7 @@ public class Tablero {
             if (esPosible(xSig, ySig)) {
                 tablero[xSig][ySig] = caballos + 1;
                 
-                if (solucion(tablero, caballos + 1, xSig, ySig, X_MOVE, Y_MOVE)) {
+                if (solucion(soluciones, tablero, caballos + 1, xSig, ySig, X_MOVE, Y_MOVE)) {
                     return true;
                 } else {
                     tablero[xSig][ySig] = 0;
@@ -127,5 +132,51 @@ public class Tablero {
      */
     public int getValor(int x, int y) {
         return tablero[x][y];
+    }
+    
+    public ArrayList getSoluciones() {
+        return soluciones;
+    }
+    
+    public void setSoluciones(ArrayList soluciones) {
+        this.soluciones = soluciones;
+    }
+    
+    public Tablero getSolucion(int num) {  
+        System.out.println("Solucion tablero:");
+        print((int[][])soluciones.get(num));
+        return new Tablero((int[][])soluciones.get(num));
+    }
+    
+    private int[][] copy(int[][] a) {
+        int[][] b = new int[n][n];
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                b[i][j] = a[i][j];
+            }
+        }
+        
+        return b;
+    }
+    
+    public void print() {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(tablero[i][j] + " ");
+                
+            }
+            System.out.println("");
+        }
+    }
+    
+    public void print(int[][] tablero) {
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[0].length; j++) {
+                System.out.print(tablero[i][j] + " ");
+                
+            }
+            System.out.println("");
+        }
     }
 }
