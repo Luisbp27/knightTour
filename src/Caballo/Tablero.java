@@ -56,6 +56,7 @@ public class Tablero {
         // Llamamos al método recursivo
         if (!solucion(soluciones, tablero, caballos, x, y, X_MOVE, Y_MOVE)) {
             JOptionPane.showMessageDialog(null, "No hay solución, prueba otra casilla.");
+            tablero[x][y] = 0;
         } 
     }
     
