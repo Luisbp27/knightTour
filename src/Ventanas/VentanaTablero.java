@@ -3,7 +3,6 @@ package Ventanas;
 import Caballo.Tablero;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -74,9 +73,11 @@ public class VentanaTablero extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
 
+        // Creamos una matriz de botones
         casillas = new JButton[tamaño][tamaño];
         initTablero();
 
+        // Listener que nos permite registrar que boton ha sido pulsado
         for (int i = 0; i < tamaño; i++) {
             for (int j = 0; j < tamaño; j++) {
                 casillas[i][j].addActionListener((ActionEvent ae) -> {
@@ -89,6 +90,7 @@ public class VentanaTablero extends JFrame {
             }
         }
 
+        // Gestion de los diferentes items de la barra de menu
         solucion1.setText("Solución 1");
         solucion1.addActionListener((ActionEvent e) -> {
             mostrarSolucion(0);
@@ -157,21 +159,33 @@ public class VentanaTablero extends JFrame {
         Tablero t = new Tablero(tamaño);
         t.solucionar(x, y);
         VentanaTablero ventanaTablero = new VentanaTablero(t, tamaño);
-        
+
         ventanaTablero.setVisible(true);
     }
 
+    /**
+     * Método que muestra la solución correspondiente al entero pasado por parámetro
+     * del ArrayList de soluciones
+     * 
+     * @param num 
+     */
     private void mostrarSolucion(int num) {
-        System.out.println("num: " + num);
-        Tablero aux = tablero.getSolucion(num);
-                
-        ArrayList solucionesAux = tablero.getSoluciones();
+        try {
+            // Creamos un Tablero auxiliar con la solución que queremos
+            Tablero aux = tablero.getSolucion(num);
+            
+            // Guardamos el ArrayList de soluciones para no perderlo
+            ArrayList solucionesAux = tablero.getSoluciones();
 
-        this.setVisible(false);
-        VentanaTablero ventanaTablero = new VentanaTablero(aux, tamaño);
-        
-        tablero.setSoluciones(solucionesAux);
-        
-        ventanaTablero.setVisible(true);
+            // Actualizamos la nueva solución
+            this.setVisible(false);
+            VentanaTablero ventanaTablero = new VentanaTablero(aux, tamaño);
+
+            // Actualizamos el ArrayList de soluciones
+            tablero.setSoluciones(solucionesAux);
+
+            ventanaTablero.setVisible(true);
+        } catch (Exception e) {
+        }
     }
 }

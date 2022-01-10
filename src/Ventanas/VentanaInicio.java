@@ -29,7 +29,7 @@ public class VentanaInicio extends JFrame {
      * 
      */
     public VentanaInicio() {
-        super("Programa del Caballo");
+        super("Juego del Caballo");
 
         initComponents();
     }
@@ -58,6 +58,8 @@ public class VentanaInicio extends JFrame {
 
         this.panel.setVisible(true);
 
+        // Listener para registrar cuando el usuario pulsa el boton y se ejecutan
+        // las correspondientes acciones
         intro.addActionListener((ActionEvent ae) -> {
             try {
                 int d = Integer.parseInt(texto.getText());

@@ -31,22 +31,32 @@ public class Tablero {
         initTablero();
     }
     
+    /**
+     * Método constructor de la clase
+     * 
+     * @param tablero 
+     */
     public Tablero(int[][] tablero) {
         this.tablero = tablero;
         this.n = tablero.length;
         this.caballos = n*n;
     }
     
+    /**
+     * Método que soluciona el juego
+     * 
+     * @param x
+     * @param y 
+     */
     public void solucionar(int x, int y) {
         // Introducimos el primer caballo en la posición pasada por paráemetro
         tablero[x][y] = 1;
         caballos++;
         
+        // Llamamos al método recursivo
         if (!solucion(soluciones, tablero, caballos, x, y, X_MOVE, Y_MOVE)) {
             JOptionPane.showMessageDialog(null, "No hay solución, prueba otra casilla.");
         } 
-        
-        //print();
     }
     
     /**
@@ -88,17 +98,12 @@ public class Tablero {
     private boolean solucion(ArrayList<Object> soluciones, int[][] tablero, int caballos, int x, int y, int[] X_MOVE, int[] Y_MOVE) {
         int xSig, ySig;
         
+        // Si rellena todo el tablero, es decir, tiene una posible solución
         if (caballos == n*n) {
-            //print(tablero);
+            // Añadimos la solución al ArrayList de soluciones
             soluciones.add(copy(tablero));
             
-            for (int i = 0; i < soluciones.size(); i++) {
-                System.out.println("Solucion " + i + ": ");
-                print((int[][]) soluciones.get(i));
-            }
-            
-            System.out.println("//////////////////");
-            
+            // Comprobamos si tiene las 3 soluciones que queremos
             return soluciones.size() == 3;
         }
         
@@ -124,6 +129,17 @@ public class Tablero {
     }
     
     /**
+     * Método que devuelve la solución del indice pasado por parámetro del
+     * ArrayList de soluciones
+     * 
+     * @param num
+     * @return 
+     */
+    public Tablero getSolucion(int num) {  
+        return new Tablero((int[][])soluciones.get(num));
+    }
+    
+    /**
      * Método que devuelve el contenido del atributo tablero
      * 
      * @param x
@@ -134,20 +150,31 @@ public class Tablero {
         return tablero[x][y];
     }
     
+    /**
+     * Método que devuelve el contenido del atributo soluciones
+     * 
+     * @return 
+     */
     public ArrayList getSoluciones() {
         return soluciones;
     }
     
+    /**
+     * Método que modifica el contenido del atributo soluciones por la variable
+     * pasada por parámetro
+     * 
+     * @param soluciones 
+     */
     public void setSoluciones(ArrayList soluciones) {
         this.soluciones = soluciones;
     }
     
-    public Tablero getSolucion(int num) {  
-        System.out.println("Solucion tablero:");
-        print((int[][])soluciones.get(num));
-        return new Tablero((int[][])soluciones.get(num));
-    }
-    
+    /**
+     * Método que devuelve una copia de la matriz de enteros pasada por parámetro
+     * 
+     * @param a
+     * @return 
+     */
     private int[][] copy(int[][] a) {
         int[][] b = new int[n][n];
         
@@ -158,25 +185,5 @@ public class Tablero {
         }
         
         return b;
-    }
-    
-    public void print() {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                System.out.print(tablero[i][j] + " ");
-                
-            }
-            System.out.println("");
-        }
-    }
-    
-    public void print(int[][] tablero) {
-        for (int i = 0; i < tablero.length; i++) {
-            for (int j = 0; j < tablero[0].length; j++) {
-                System.out.print(tablero[i][j] + " ");
-                
-            }
-            System.out.println("");
-        }
     }
 }
