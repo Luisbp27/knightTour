@@ -175,7 +175,7 @@ public class VentanaTablero extends JFrame {
             Tablero aux = tablero.getSolucion(num);
             
             // Guardamos el ArrayList de soluciones para no perderlo
-            ArrayList solucionesAux = tablero.getSoluciones();
+            ArrayList<Object> solucionesAux = tablero.getSoluciones();
 
             // Actualizamos la nueva solución
             this.setVisible(false);

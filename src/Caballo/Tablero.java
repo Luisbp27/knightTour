@@ -41,6 +41,18 @@ public class Tablero {
         this.n = tablero.length;
         this.caballos = n*n;
     }
+
+    /**
+     * Método que inicializa el tablero
+     * 
+     */
+    private void initTablero() {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                this.tablero[i][j] = 0;                
+            }     
+        }
+    }
     
     /**
      * Método que soluciona el juego
@@ -58,18 +70,6 @@ public class Tablero {
             JOptionPane.showMessageDialog(null, "No hay solución, prueba otra casilla.");
             tablero[x][y] = 0;
         } 
-    }
-    
-    /**
-     * Método que inicializa el tablero
-     * 
-     */
-    private void initTablero() {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                this.tablero[i][j] = 0;                
-            }     
-        }
     }
     
     /**
@@ -156,7 +156,7 @@ public class Tablero {
      * 
      * @return 
      */
-    public ArrayList getSoluciones() {
+    public ArrayList<Object> getSoluciones() {
         return soluciones;
     }
     
@@ -166,7 +166,7 @@ public class Tablero {
      * 
      * @param soluciones 
      */
-    public void setSoluciones(ArrayList soluciones) {
+    public void setSoluciones(ArrayList<Object> soluciones) {
         this.soluciones = soluciones;
     }
     
